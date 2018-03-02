@@ -1,5 +1,5 @@
 import pandas as pd
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response, request, jsonify
 
 #QUERY THE BASE FILES IN A PRE-FILTERED MANNER
 #iter_csv = pandas.read_csv('file.csv', iterator=True, chunksize=1000)
@@ -33,6 +33,17 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return render_template('index.html', data=final.to_json())
+
+@app.route("/api/v1/get")
+def get():
+    table = request.args.get('table')
+    groupby = request.args.get('groupby')
+    filters = request.args.get('filters')
+    return make_response(jsonify({
+        "tableName": table,
+        "groupBy": groupby,
+        "filters": filters,
+    }), 200)
 
 if __name__ == "__main__":
     app.debug = True
