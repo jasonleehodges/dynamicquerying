@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -12,25 +12,48 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ParentComp = function (_React$Component) {
     _inherits(ParentComp, _React$Component);
 
-    function ParentComp() {
+    function ParentComp(props) {
         _classCallCheck(this, ParentComp);
 
-        return _possibleConstructorReturn(this, (ParentComp.__proto__ || Object.getPrototypeOf(ParentComp)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (ParentComp.__proto__ || Object.getPrototypeOf(ParentComp)).call(this, props));
+
+        _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
+        _this.handleAddOptions = _this.handleAddOptions.bind(_this);
+        _this.state = {
+            title: "Randomizer App",
+            options: []
+        };
+        return _this;
     }
 
     _createClass(ParentComp, [{
-        key: 'render',
+        key: "handleDeleteOptions",
+        value: function handleDeleteOptions() {
+            this.setState(function () {
+                return {
+                    options: []
+                };
+            });
+        }
+    }, {
+        key: "handleAddOptions",
+        value: function handleAddOptions(text) {
+            this.setState(function (prevState) {
+                return {
+                    options: prevState.options.concat([text])
+                };
+            });
+        }
+    }, {
+        key: "render",
         value: function render() {
-            var title = "Randomizer App";
-            var options = ['Thing One', 'Thing Two', 'Thing Four'];
-
             return React.createElement(
-                'div',
+                "div",
                 null,
-                React.createElement(Header, { title: title }),
-                React.createElement(Action, null),
-                React.createElement(Options, { options: options }),
-                React.createElement(AddOption, null)
+                React.createElement(Header, { title: this.state.title }),
+                React.createElement(Action, { hasOptions: this.state.options.length > 0 }),
+                React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
+                React.createElement(AddOption, { handleAddOptions: this.handleAddOptions })
             );
         }
     }]);
@@ -48,10 +71,10 @@ var Header = function (_React$Component2) {
     }
 
     _createClass(Header, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return React.createElement(
-                'h1',
+                "h1",
                 null,
                 this.props.title
             );
@@ -71,20 +94,24 @@ var Action = function (_React$Component3) {
     }
 
     _createClass(Action, [{
-        key: 'handlePick',
+        key: "handlePick",
         value: function handlePick() {
             console.log("hello");
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             return React.createElement(
-                'div',
+                "div",
                 null,
                 React.createElement(
-                    'button',
-                    { className: 'btn btn-danger', onClick: this.handlePick },
-                    'Decide for Me!'
+                    "button",
+                    {
+                        className: "btn btn-danger",
+                        onClick: this.handlePick,
+                        disabled: !this.props.hasOptions
+                    },
+                    "Decide for Me!"
                 )
             );
         }
@@ -96,47 +123,34 @@ var Action = function (_React$Component3) {
 var Options = function (_React$Component4) {
     _inherits(Options, _React$Component4);
 
-    function Options(props) {
+    function Options() {
         _classCallCheck(this, Options);
 
-        var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
-
-        _this4.removeAll = _this4.removeAll.bind(_this4);
-        _this4.state = {
-            options: _this4.props.options
-        };
-        return _this4;
+        return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
     }
 
     _createClass(Options, [{
-        key: 'removeAll',
-        value: function removeAll() {
-            this.setState(function (prevState) {
-                return prevState.options = [];
-            });
-        }
-    }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             return React.createElement(
-                'div',
+                "div",
                 null,
                 React.createElement(
-                    'p',
+                    "p",
                     null,
-                    'Options Component Here'
+                    "Options Component Here"
                 ),
                 React.createElement(
-                    'ul',
+                    "ul",
                     null,
-                    this.state.options.map(function (option) {
+                    this.props.options.map(function (option) {
                         return React.createElement(Option, { text: option, key: option });
                     })
                 ),
                 React.createElement(
-                    'button',
-                    { className: 'btn btn-danger', onClick: this.removeAll },
-                    'Remove All'
+                    "button",
+                    { className: "btn btn-danger", onClick: this.props.handleDeleteOptions },
+                    "Remove All"
                 )
             );
         }
@@ -148,30 +162,35 @@ var Options = function (_React$Component4) {
 var AddOption = function (_React$Component5) {
     _inherits(AddOption, _React$Component5);
 
-    function AddOption() {
+    function AddOption(props) {
         _classCallCheck(this, AddOption);
 
-        return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
+        var _this5 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
+
+        _this5.optionSubmit = _this5.optionSubmit.bind(_this5);
+        return _this5;
     }
 
     _createClass(AddOption, [{
-        key: 'optionSubmit',
+        key: "optionSubmit",
         value: function optionSubmit() {
-            if (document.getElementById('optionInput').value.trim()) {
-                console.log("option added " + document.getElementById('optionInput').value.trim());
+            var text = document.getElementById('optionInput').value.trim();
+            if (text) {
+                this.props.handleAddOptions(text);
             }
+            document.getElementById('optionInput').value = "";
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             return React.createElement(
-                'div',
+                "div",
                 null,
-                React.createElement('input', { className: 'form-control', id: 'optionInput', type: 'text', placeholder: 'Add Option' }),
+                React.createElement("input", { className: "form-control", id: "optionInput", type: "text", placeholder: "Add Option" }),
                 React.createElement(
-                    'button',
-                    { className: 'btn btn-primary', onClick: this.optionSubmit },
-                    'Submit'
+                    "button",
+                    { className: "btn btn-primary", onClick: this.optionSubmit },
+                    "Submit"
                 )
             );
         }
@@ -190,10 +209,10 @@ var Option = function (_React$Component6) {
     }
 
     _createClass(Option, [{
-        key: 'render',
+        key: "render",
         value: function render() {
             return React.createElement(
-                'li',
+                "li",
                 null,
                 this.props.text
             );
