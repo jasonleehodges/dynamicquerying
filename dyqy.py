@@ -46,5 +46,6 @@ def get():
     }), 200)
 
 if __name__ == "__main__":
-    app.debug = True
-    app.run()
+    app.jinja_env.auto_reload = True
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.run(debug=True)
