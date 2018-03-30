@@ -1,4 +1,11 @@
 // babel private/app.js --out-file static/js/app.js --presets=es2015,react --watch
+import React from 'react';
+import ReactDOM from 'react-dom';
+import AddOption from './components/AddOption';
+import Header from './components/Header';
+import Action from './components/Action';
+import Options from './components/Options';
+
 class ParentComp extends React.Component {
     constructor(props) {
         super(props);
@@ -31,80 +38,6 @@ class ParentComp extends React.Component {
                 <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} />
                 <AddOption handleAddOptions={this.handleAddOptions}/>
             </div>
-        );
-    }
-}
-
-
-class Header extends React.Component {
-    render() {
-        return (
-            <h1>{this.props.title}</h1>
-        )
-    }
-}
-
-class Action extends React.Component {
-    handlePick(){
-        console.log("hello");
-    }
-    render() {
-        return (
-            <div>
-                <button 
-                    className="btn btn-danger" 
-                    onClick={this.handlePick}
-                    disabled={!this.props.hasOptions}
-                >Decide for Me!</button>
-            </div>
-        );
-    }
-}
-
-class Options extends React.Component {
-    render () {
-        return (
-            <div>
-                <p>Options Component Here</p>
-                <ul>
-                    {this.props.options.map((option) => {
-                        return <Option text={option} key={option} />
-                    })}
-                </ul>
-                <button className="btn btn-danger" onClick={this.props.handleDeleteOptions}>Remove All</button>
-            </div>
-        );
-    }
-}
-
-class AddOption extends React.Component {
-    constructor(props){
-        super(props);
-        this.optionSubmit = this.optionSubmit.bind(this);
-    }
-    optionSubmit(){
-        let text = document.getElementById('optionInput').value.trim();
-        if(text){
-            this.props.handleAddOptions(text);
-        }
-        document.getElementById('optionInput').value = "";
-    }
-    render () {
-        return (
-            <div>
-                <input className="form-control" id="optionInput" type="text" placeholder="Add Option"/>
-                <button className="btn btn-primary" onClick={this.optionSubmit}>Submit</button>
-            </div>
-        );
-    }
-}
-
-class Option extends React.Component {
-    render() {
-        return (
-            <li>
-                {this.props.text}
-            </li>
         );
     }
 }

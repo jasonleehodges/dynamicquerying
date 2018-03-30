@@ -1,7 +1,5 @@
 const path = require('path');
 
-
-
 module.exports = {
     entry: "./private/app.js",
     output: {
