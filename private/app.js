@@ -7,6 +7,28 @@ import Action from './components/Action';
 import Options from './components/Options';
 
 class ParentComp extends React.Component {
+    /* new proposed es6 (or maybe 7?) syntax that allows for properties to be set directly on the class itself
+    without the need for the constructor method. Needs babel plugin "transform-class-properties" to transpile. */
+    state = {
+        title: "Randomizer App",
+        options: []
+    }
+    handleDeleteOptions = () => {
+        this.setState(() => {
+            return {
+                options: []
+            }
+        })
+    };
+    handleAddOptions = (text) => {
+        this.setState((prevState) => {
+            return {
+                options: prevState.options.concat([text])
+            }
+        })
+    };
+    /// ---- end new syntax ---//
+    /* No longer need this constructor method given the above new syntax.
     constructor(props) {
         super(props);
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
@@ -15,21 +37,9 @@ class ParentComp extends React.Component {
             title: "Randomizer App",
             options: []
         }
-    }
-    handleDeleteOptions() {
-        this.setState(() => {
-            return {
-                options: []
-            }
-        })
-    }
-    handleAddOptions(text){
-        this.setState((prevState) => {
-            return {
-                options: prevState.options.concat([text])
-            }
-        })
-    }
+    } 
+    */
+    
     render (){
         return (
             <div>
