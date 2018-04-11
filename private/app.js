@@ -5,6 +5,7 @@ import AddOption from './components/AddOption';
 import Header from './components/Header';
 import Action from './components/Action';
 import Options from './components/Options';
+import './styles/styles.scss';
 
 class ParentComp extends React.Component {
     /* new proposed es6 (or maybe 7?) syntax that allows for properties to be set directly on the class itself
