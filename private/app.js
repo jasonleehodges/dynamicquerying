@@ -5,6 +5,9 @@ import AddOption from './components/AddOption';
 import Header from './components/Header';
 import Action from './components/Action';
 import Options from './components/Options';
+import Bootstrap from 'bootstrap/dist/js/bootstrap';
+import 'normalize.css/normalize.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import './styles/styles.scss';
 
 class ParentComp extends React.Component {
